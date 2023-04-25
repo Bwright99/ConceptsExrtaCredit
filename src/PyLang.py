@@ -1,4 +1,4 @@
-from strings_with_arrows import *
+from Strings import *
 
 import string
 import os

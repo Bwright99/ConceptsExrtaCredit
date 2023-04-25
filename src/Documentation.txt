@@ -1,0 +1,89 @@
+Standard Coding Documentation
+
+Int - A collection of digits ranging from 0-9
+Boolean - Either specified as true or false
+String - A collection of characters to establish a string of words
+
+Keyword List:
+The code is composed of the values: 
+  'VAR',    - The specified variable to take assignment
+  'AND',    - An addition to an established condition
+  'OR',     - Another optional condition given two variables
+  'NOT',    - Checks if the condition does not apply to the speciefied variables action
+  'IF',     - Establishes the start of a variables states condition
+  'ELIF',   - An add on to the if condition, adding another
+  'ELSE',   - A compliment to the if and elif condition to default to a specific action if both previous conditions are deemed false
+  'FOR',    - Call towards specified variable to result in action for the specified type
+  'TO',     - Sends the state to the respective variable
+  'STEP',   - Given a specified data value, a step increase or decrease may occur
+  'WHILE',  - While a specific condition is true or false, the code block within the curly braces will begin executed
+  'FUN',    - The creation of a function class to store steps of code
+  'THEN',   - A compliment to the if and while code. While or if a condition is met, then the specified code will be executed
+  'END',    - At the end of the code block, the execution of the code will end
+  'RETURN', - At the end of the code block, if the function is required to return a type such as a boolean, int, or string then it will be returned
+  'CONTINUE',  - While a specific condition is met, then the code execution may continue executing through the specified block
+  'BREAK',  - Upon reaching a break in the coding block, the compiler will skip this code until it is once called upon again
+
+Grammars:
+var -> N* statement (N+ var)* N*
+
+statement -> KEYWORD:RETURN expr
+			: KEYWORD:CONTINUE
+			: KEYWORD:BREAK
+			: expr
+
+expr ->     : KEYWORD:VAR IDENTIFIER EQ expr
+            : comp-expr ((KEYWORD:AND|KEYWORD:OR) comp-expr)*
+
+comp-expr-> : NOT comp-expr
+            : arith-expr ((EE|LT|GT|LTE|GTE) arith-expr)*
+
+arith-expr->  :	term ((PLUS|MINUS) term)*
+
+term ->       : factor ((MUL|DIV) factor)*
+
+factor ->     : (PLUS|MINUS) factor
+            : power
+
+power ->      : call (CARAT factor)*
+
+call->        : atom (LPAREN (expr (COMMA expr)*)? RPAREN)?
+
+atom ->       : INT|FLOAT|STRING|IDENTIFIER
+            : LPAREN expr RPAREN
+            : list-expr
+            : if-expr
+            : for-expr
+            : while-expr
+            : func-def
+
+list-expr ->  : LBRACE (expr (COMMA expr)*)? RSQUARE
+
+if-expr ->    : KEYWORD:IF expr KEYWORD:THEN
+              (statement if-expr-b|if-expr-c?)
+            | (N statements KEYWORD:END|if-expr-b|if-expr-c)
+
+if-expr-b ->  : KEYWORD:ELIF expr KEYWORD:THEN
+              (statement if-expr-b|if-expr-c?)
+            | (N statements KEYWORD:END|if-expr-b|if-expr-c)
+
+if-expr-c ->  : KEYWORD:ELSE
+              statement
+            | (N statements KEYWORD:END)
+
+for-expr ->    : KEYWORD:FOR IDENTIFIER EQ expr KEYWORD:TO expr 
+              (KEYWORD:STEP expr)? KEYWORD:THEN
+              statement
+            | (N statements KEYWORD:END)
+
+while-expr -> : KEYWORD:WHILE expr KEYWORD:THEN
+              statement
+            | (N statements KEYWORD:END)
+
+func-def  ->  : KEYWORD:FUN IDENTIFIER?
+              LPAREN (IDENTIFIER (COMMA IDENTIFIER)*)? RPAREN
+              (ARROW expr)
+            | (N statements KEYWORD:END)
+
+Design Choices: For this assignment, I added the code from Homework 4 and Test 2 while also following a youtube tutorial to add more functionality once executing the code.
+I didn't see the need to make a complex or funky code, so I chose to just keep the syntax basic and straight to the point
